@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ai-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+
+app:
+  api:
+    url: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+    key: sk-64d0d56356b6498d9c03aa3477d03bec
+
