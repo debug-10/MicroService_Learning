@@ -1,0 +1,12 @@
+server:
+  port: 7070
+
+spring:
+  application:
+    name: request-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos

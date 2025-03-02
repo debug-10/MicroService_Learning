@@ -1,6 +1,6 @@
 server:
   port: 8081
-
+#  port: 0
 spring:
   application:
     name: user-service
@@ -10,3 +10,14 @@ spring:
         server-addr: localhost:8848
         username: nacos
         password: nacos
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/user_center?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+      username: root
+      password: password
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 30000
