@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: ai2-service
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+      config:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+        file-extension: yaml
+        group: guke
+        shared-configs:
+          - data-id: database-config-${spring.profiles.active}.yaml
+            group: guke
+            refresh: true
+          - data-id: redis-config-${spring.profiles.active}.yaml
+            group: guke
+            refresh: true
+          - data-id: oss-config-${spring.profiles.active}.yaml
+            group: guke
+            refresh: true
+          - data-id: key-config-${spring.profiles.active}.yaml
+            group: guke
+            refresh: true

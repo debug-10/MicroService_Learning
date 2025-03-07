@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: content-service
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+      config:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+        file-extension: yaml
+        group: guke
+        sharedConfigs:
+          - dataId: common-service-${spring.profiles.active}.yaml
+            group: guke
+            refresh: true

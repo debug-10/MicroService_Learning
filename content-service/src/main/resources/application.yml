@@ -2,23 +2,10 @@ server:
   port: 8088
 
 spring:
-  application:
-    name: content-service
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
-        username: nacos
-        password: nacos
-
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/content_center?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
-      username: root
-      password: password
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
-      max-wait: 30000
+  profiles:
+    feign:
+      client:
+        config:
+          default:
+            loggerlevel: full
+    active: dev
