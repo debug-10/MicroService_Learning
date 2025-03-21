@@ -9,3 +9,33 @@ spring:
           default:
             loggerlevel: full
     active: dev
+  cloud:
+    sentinel:
+      transport:
+         port: 8719
+         dashboard: localhost:8888
+      datasource:
+        #流控
+        flow:
+          nacos:
+            server-addr: localhost:8848
+            username: nacos
+            password: nacos
+            group-id: sentinel
+            rule-type: flow
+            data-id: content-service-flow-rules
+            data-type: json
+            #熔断降级
+        degrade:
+          nacos:
+            server-addr: localhost:8848
+            username: nacos
+            password: nacos
+            group-id: sentinel
+            rule-type: degrade
+            data-id: content-service-degrade-rules
+            data-type: json
+
+feign:
+  sentinel:
+    enabled: true

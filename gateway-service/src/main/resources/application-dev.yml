@@ -1,0 +1,60 @@
+server:
+  port: 9090
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/user_center?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+      username: root
+      password: password
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 30000
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #启用服务发现配置
+      routes:
+        - id: user_route #路由的唯一标识
+          order: 1 # 数字越小，优先级越高
+          uri: lb://user-service #路由匹配地址，从注册中心根据服务名称进行负载均衡路由
+          # 断言(可以多个)
+          predicates:
+           - Path=/user/**  # 路由匹配的路径
+#           - Method=GET # 请求方法必须是GET
+#           - Query=userId, 123 # 必须携带 userId参数，值为123
+#           - Header=token, \d+ # 必须携带token请求头，，值为数字
+#           - Before=2025-03-19T23:59:59+08:00
+#           - After=2025-03-21T23:59:59+08:00
+#           - Between=2025-03-21T08:00:00+08:00,2025-03-21T23:59:59+08:00
+#           - JDK=17
+          # 过滤器(可以多个)
+          filters:
+            - StripPrefix=1 # 转发路由时，去掉一层前缀/user-service
+#            - InvalidParameter=token,-1
+        - id: content_route #路由的唯一标识
+          order: 1 # 数字越小，优先级越高
+          uri: lb://content-service #路由匹配地址，从注册中心根据服务名称进行负载均衡路由
+          # 断言(可以多个)
+          predicates:
+            - Path=/content/** # 路由匹配的路径
+            - Method=GET # 请求方法必须是GET
+         # 过滤器(可以多个)
+          filters:
+            - StripPrefix=1 # 转发路由时，去掉一层前缀/content-service
+    sentinel:
+      filter:
+        enabled: true
+      transport:
+        port: 8719
+        dashboard: localhost:8888
+      scg:
+        fallback:
+          mode: response
+          response-status: 500
+          response-body: '{"code":"500","msg":"网关流量超量"}'
+
+

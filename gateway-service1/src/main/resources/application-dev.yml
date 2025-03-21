@@ -1,0 +1,8 @@
+server:
+  port: 9090
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #启用服务发现配置

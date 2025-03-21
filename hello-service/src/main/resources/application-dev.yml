@@ -1,0 +1,33 @@
+server:
+  port: 9091  # 设置 hello-service 的端口号
+
+spring:
+  application:
+    name: hello-service  # 服务名称
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # 启用服务发现配置
+      routes:
+        - id: ai2_route  # 路由的唯一标识
+          order: 1  # 数字越小，优先级越高
+          uri: lb://ai2-service  # 路由匹配地址，从注册中心根据服务名称进行负载均衡路由
+          predicates:
+            - Path=/ai2/**  # 路由匹配的路径
+            - TimePeriod=08:00,12:00
+          filters:
+            - StripPrefix=1  # 转发路由时，去掉一层前缀 /ai2-service
+
+    sentinel:
+      filter:
+        enabled: true
+      transport:
+        port: 8720  # Sentinel 端口号
+        dashboard: localhost:8888  # Sentinel 控制台地址
+      scg:
+        fallback:
+          mode: response
+          response-status: 500
+          response-body: '{"code":"500","msg":"网关流量超量"}'
